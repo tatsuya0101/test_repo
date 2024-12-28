@@ -1,0 +1,22 @@
+name: 'Spreadsheet to GitHub (Simple)'
+
+on:
+  workflow_dispatch:
+    inputs:
+      spreadsheet_id:
+        description: '1YtayIswh6oq2hQswTt-t_VS3P7O2QdQekuHZLguKaQQ'
+        required: true
+
+jobs:
+  push_data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v3
+
+      - name: スプレッドシートのデータをプッシュ
+        uses: actions/google-sheets-action@v1
+        with:
+          spreadsheetId: ${{ github.event.inputs.spreadsheet_id }}
+          path: './data.csv' # 保存先のパス
+ 
