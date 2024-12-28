@@ -6,7 +6,11 @@ on:
       spreadsheet_id:
         description: '1YtayIswh6oq2hQswTt-t_VS3P7O2QdQekuHZLguKaQQ'
         required: true
-
+permissions:
+  actions: write
+  checks: write
+  contents: write
+  
 jobs:
   push_data:
     runs-on: ubuntu-latest
