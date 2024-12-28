@@ -1,8 +1,25 @@
-name : Hello
-on : push
-jobs :
-  hello:
-     runs-on: ubuntu-latest
-     steps:
-        - run : echo "Hello worldß"
-        - uses: actions/checkout@v4
+name: 'Spreadsheet to GitHub'
+on:
+  workflow_dispatch:
+    inputs:
+      spreadsheet_id:
+        description: '1YtayIswh6oq2hQswTt-t_VS3P7O2QdQekuHZLguKaQQ'
+        required: true
+jobs:
+  push_data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v3
+
+      - name: スプレッドシートをCSVとしてダウンロード
+        run: |
+          wget -q -O data.csv "https://docs.google.com/spreadsheets/d/${{ github.event.inputs.spreadsheet_id }}/export?format=csv"
+
+      - name: データをコミット
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data.csv
+          git commit -m 'Update data from spreadsheet'
+          git push
